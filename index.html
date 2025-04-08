@@ -2,56 +2,54 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мины - Olimp Style</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Manga & Manhwa Reader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Мины</h1>
-            <div class="balance">Баланс: <span id="balance">1000</span> ₸</div>
-        </div>
-        <div class="game-settings">
-            <div class="setting">
-                <label>Ставка (₸):</label>
-                <input type="number" id="bet" value="100" min="10">
-            </div>
-            <div class="setting">
-                <label>Количество мин:</label>
-                <select id="mines-count">
-                    <option value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
+        <button class="burger-btn" id="burger-btn">☰</button>
+        <div class="overlay" id="overlay"></div>
+        <nav class="sidebar" id="sidebar">
+            <h2>Сайт от меня</h2>
+            <ul id="chapter-list">
+                <li><a href="#chapter1" data-chapter="chapter1">Глава 1</a></li>
+                <li><a href="#chapter2" data-chapter="chapter2">Глава 2</a></li>
+                <li><a href="#chapter3" data-chapter="chapter3">Глава 3</a></li>
+            </ul>
+            <div class="settings">
+                <label>Размер:</label>
+                <select id="frame-size">
+                    <option value="auto">Авто</option>
+                    <option value="full">Полный</option>
+                    <option value="compact">Компактный</option>
                 </select>
+                <label>Автопрокрутка:</label>
+                <button id="auto-scroll">Вкл/Выкл</button>
+                <label>Скорость прокрутки:</label>
+                <div class="scroll-speed-container">
+                    <input type="range" id="scroll-speed" min="1" max="10" value="1">
+                </div>
+                <label>Звуки:</label>
+                <button id="sound-toggle">Включены</button>
+                <button id="to-start">К началу</button>
+                <button id="to-end">К концу</button>
+                <button id="fullscreen-btn">Полный экран</button>
             </div>
-            <button id="start-game">Начать игру</button>
-            <button id="auto-play" class="auto-btn">Автоигра</button>
-        </div>
-        <div class="mines-counter">
-            <span>Мины: <span id="mines-remaining">0</span>/<span id="mines-total">0</span></span>
-        </div>
-        <div class="game-board" id="game-board"></div>
-        <div class="result" id="result"></div>
-        <div class="action-buttons">
-            <button id="cancel-game" class="cancel-btn" style="display: none;">Отмена</button>
-            <button id="cashout" class="cashout-btn" style="display: none;">Вывести: <span id="potential-win">0</span> ₸</button>
-            <button id="play-again" class="play-again-btn">Играть снова</button>
-        </div>
-        <div class="history">
-            <h3>История игр</h3>
-            <ul id="game-history"></ul>
-        </div>
-        <div class="bonus">
-            <button id="claim-bonus" disabled>Получить бонус: <span id="bonus-amount">0</span> ₸</button>
-        </div>
-        <div class="lucky-move">
-            <h3>Счастливый ход</h3>
-            <p id="lucky-move-message">Сделайте ход, чтобы проверить удачу!</p>
+        </nav>
+        <div class="reader" id="reader">
+            <div class="page-container" id="page-container"></div>
+            <div class="progress-bar" id="progress-bar">
+                <span id="progress-text"></span>
+                <div id="progress-fill"></div>
+            </div>
+            <button class="to-top-btn" id="to-top-btn">↑</button>
         </div>
     </div>
+    <audio id="page-flip-sound" src="assets/sounds/page-flip.mp3"></audio>
+    <audio id="click-sound" src="assets/sounds/click.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
