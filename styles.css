@@ -1,0 +1,530 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+    color: #fff;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.burger-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(123, 91, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.burger-btn:hover {
+    transform: scale(1.1);
+    background: #7b5bff;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(30, 30, 47, 0.8), rgba(42, 42, 64, 0.8));
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 998;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Боковое меню для ПК (изначальный вид) */
+.sidebar {
+    width: 260px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: -260px; /* Изначальная позиция для ПК */
+    height: 100%;
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+    transform: translateX(260px); /* Изначальное открытие для ПК */
+}
+
+.sidebar h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 35px;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#chapter-list {
+    list-style: none;
+    padding: 0;
+}
+
+#chapter-list a {
+    display: block;
+    padding: 14px 18px;
+    color: #e0e0e0;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 10px 0;
+    border-radius: 14px;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#chapter-list a:hover {
+    transform: scale(1.05);
+    background: #7b5bff;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(123, 91, 255, 0.4);
+}
+
+#chapter-list a.active {
+    background: #7b5bff;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(123, 91, 255, 0.4);
+}
+
+.settings {
+    margin-top: 25px;
+}
+
+.settings label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.settings select, .settings button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.settings select:hover, .settings button:hover {
+    background: #7b5bff;
+    transform: scale(1.02);
+}
+
+.scroll-speed-container {
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 12px;
+}
+
+#scroll-speed {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg, #7b5bff 0%, #b19bff 100%);
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease-in-out;
+}
+
+#scroll-speed::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 2px solid #7b5bff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+#scroll-speed::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #7b5bff;
+}
+
+.reader {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: inherit;
+    overflow: hidden;
+    width: 100%;
+}
+
+.page-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.page-container img {
+    max-width: 100%;
+    width: 90%;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 8px;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    user-select: none;
+}
+
+.end-message {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.end-message p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chapter-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.chapter-nav button {
+    padding: 12px 24px;
+    background: rgba(123, 91, 255, 0.85);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.chapter-nav button:hover {
+    transform: scale(1.05);
+    background: #7b5bff;
+}
+
+.chapter-nav button:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+}
+
+.progress-bar {
+    position: fixed;
+    bottom: 30px;
+    width: 60%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.progress-bar.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#progress-fill {
+    height: 100%;
+    background: #7b5bff;
+    transition: width 0.4s ease-in-out;
+}
+
+#progress-text {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+.page-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.page-container::-webkit-scrollbar-thumb {
+    background: #7b5bff;
+    border-radius: 5px;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(123, 91, 255, 0.5);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.to-top-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(123, 91, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.to-top-btn.visible {
+    opacity: 1;
+    animation: pulse 2s infinite;
+}
+
+.to-top-btn:hover {
+    transform: scale(1.1);
+    background: #7b5bff;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .burger-btn {
+        top: 10px;
+        left: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-width: none;
+        padding: 15px;
+        left: -100%;
+        display: block; /* Убедимся, что меню отображается */
+    }
+
+    .sidebar.open {
+        transform: translateX(100%);
+        display: block;
+    }
+
+    .sidebar:not(.open) {
+        display: none; /* Полностью скрываем в закрытом состоянии */
+    }
+
+    .sidebar h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    #chapter-list a {
+        padding: 12px 16px;
+        font-size: 16px;
+        margin: 5px 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .settings label {
+        font-size: 14px;
+        margin: 8px 0 4px;
+    }
+
+    .settings select, .settings button {
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 8px;
+        min-height: 48px;
+    }
+
+    #scroll-speed {
+        height: 12px;
+    }
+
+    #scroll-speed::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+    }
+
+    .reader {
+        width: 100%;
+        margin: 0;
+    }
+
+    .page-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .page-container img {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .end-message {
+        margin: 20px 0;
+        padding: 15px;
+    }
+
+    .end-message p {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .chapter-nav {
+        gap: 10px;
+    }
+
+    .chapter-nav button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .progress-bar {
+        bottom: 20px;
+        width: 90%;
+        height: 8px;
+    }
+
+    #progress-text {
+        font-size: 12px;
+        top: -20px;
+    }
+
+    .to-top-btn {
+        bottom: 60px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .page-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .page-container {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* Для очень маленьких экранов (например, iPhone SE) */
+@media (max-width: 576px) {
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .sidebar.open {
+        transform: translateX(100%);
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    #chapter-list a {
+        padding: 10px 14px;
+        font-size: 15px;
+        min-height: 44px;
+    }
+
+    .settings label {
+        font-size: 13px;
+    }
+
+    .settings select, .settings button {
+        padding: 10px;
+        font-size: 15px;
+        min-height: 44px;
+    }
+
+    .end-message p {
+        font-size: 14px;
+    }
+
+    .chapter-nav button {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .progress-bar {
+        bottom: 15px;
+        width: 95%;
+        height: 6px;
+    }
+
+    #progress-text {
+        font-size: 10px;
+        top: -18px;
+    }
+
+    .to-top-btn {
+        bottom: 50px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+}
